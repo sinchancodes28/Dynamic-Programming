@@ -1,0 +1,40 @@
+class Solution {
+    public int longestPalindromeSubseq(String s) {
+        // lps = lcs(String a , reverse of string a)
+        // we need to first find the reverse of string a
+        // then find the lcs of original string and reversed string
+        String t = reverse(s);
+        int lps = lcs(s , t);
+        return lps;
+    }
+    String reverse(String s){
+        char[] arr = s.toCharArray();
+        int i = 0; int j = arr.length - 1;
+        while( i < j){
+            char temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            i++;
+            j--;
+        }
+        String t = new String(arr);
+        return t;
+    }
+    int lcs(String s , String t){
+        int n = s.length();
+        int m = t.length();
+        int[][] dp = new int[n+1][m+1];
+        for( int i = 1 ; i <= n ; i++){
+            for( int j = 1; j <= m ; j++){
+                if(s.charAt(i-1) == t.charAt(j-1)){
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                }
+                else{
+                    dp[i][j] = Math.max(dp[i-1][j] , dp[i][j-1]);
+                }
+            } 
+        }
+        return dp[n][m];
+    }
+
+}
